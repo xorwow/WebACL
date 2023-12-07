@@ -147,7 +147,7 @@ You can then add the client id and generated client secret to your `client_secre
 When your app is up and running, navigate to the server in your browser (typically `https://<your FQDN or IP>/`). You will be redirected to your OIDC login page.
 After logging in, you can access the folder overview endpoint if your user is in the allowed login (or admin) groups defined in `config.py`.
 On the overview, the first level of subfolders of your fileroot will be listed, but only for folders the logged in user can access with write privileges.
-When clicking on a folder, you can navigate to it's subfolders or view/change it's ACL permission set.
+When clicking on a folder, you can navigate to its subfolders or view/change its ACL permission set.
 Note that when adding a permission to a folder, all parent folders up to the fileroot will receive readonly permissions for this user to allow for folder traversal.
 
 ### Administration
