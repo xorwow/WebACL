@@ -1,0 +1,165 @@
+/* General Styles */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: #333;
+}
+
+p i {
+    color: #666;
+}
+
+label {
+    color: #666;
+}
+
+/* Message Flashing */
+
+.flash-info, .flash-good, .flash-warn, .flash-error {
+    display: inline-block;
+    padding: 5px 15px;
+    background-color: #eee;
+    border: 2px solid #aaa;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    font-size: 12;
+    font-weight: bold;
+    opacity: 80%;
+
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+.flash-info i, .flash-good i, .flash-warn i, .flash-error i {
+    padding-right: 5px !important;
+}
+
+.flash-info {
+    color: #333;
+}
+
+.flash-good {
+    color: green;
+}
+
+.flash-warn {
+    color: orange;
+}
+
+.flash-error {
+    color: red;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.8; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.8; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.8; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.8; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.8; }
+}
+
+/* Folder Overview */
+
+.base-folder-outline {
+    padding: 0;
+    border: 0;
+}
+
+.base-folder-outline p {
+    padding-bottom: 8px;
+    margin: 0;
+}
+
+/* Folder Detail */
+
+.detail-folder-outline {
+    padding: 0;
+    border: 0;
+}
+
+.detail-folder-outline p {
+    margin: 0;
+}
+
+.detail-folder-entry {
+    display: inline-block;
+    padding: 3px 5px;
+    margin-bottom: 3px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    font-size: medium;
+}
+
+.permission-entry {
+    padding-bottom: 8px;
+}
+
+.option-inheritance, .option-readonly {
+    margin-top: 8px;
+}
+
+.inh-icon-inactive, .inh-icon-active {
+    margin-right: 5px;
+    padding-left: 4px;
+}
+
+.inh-icon-active {
+    color: green;
+}
+
+.inh-icon-inactive {
+    color: lightgray;
+}
+
+.permission-readonly {
+    color: #666;
+}
+
+/* Admin */
+
+.global-folder-entry {
+    padding-bottom: 8px;
+}
+
+.cache-entry {
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+.warning-button {
+    color: black;
+    font-weight: bold;
+}
+
+.warning-button i {
+    padding-right: 4px;
+    color: darkorange !important;
+}
