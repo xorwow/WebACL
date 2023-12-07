@@ -239,10 +239,6 @@ This directory contains the HTML-Jinja2 templates used to render the webpages. I
 
 This directory contains the main CSS file for the webpage.
 
-## Attribution
-
-The file `static/favicon.ico` is copied from [IconArchive](https://www.iconarchive.com/show/android-lollipop-icons-by-dtafalonso/Settings-icon.html) under the [CC BY-ND 4.0 DEED](https://creativecommons.org/licenses/by-nd/4.0/) license.
-
 [^certfix]:
     If your local issuer certificate cannot be validated on a SSO redirect, try the following:
     First, download your issuer certificate, e.g. with `wget https://letsencrypt.org/certs/lets-encrypt-r3.pem`.
