@@ -17,7 +17,7 @@ WebACL provides a simple web UI for managing ACL access permissions on a linux s
 ### Installation
 
 1. Install the current version of `python3`
-2. Clone this repository via `git clone https://github.com/atlasax/webacl`
+2. Clone this repository via `git clone https://github.com/xorwow/webacl`
 3. Navigate into the new `webacl` directory 
 4. Run `pip3 install -r requirements.txt` to install the required packages
 6. Configure your app and flask settings as shown in the next section
