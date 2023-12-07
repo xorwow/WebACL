@@ -1,0 +1,7 @@
+/actions.log
+/session.log
+/__pycache__/
+/config.py
+/client_secrets.json
+/*.pem
+/*.key
