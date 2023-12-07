@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% macro make_path(name, jump_n) -%}
+<a href="{{ url_for('view_folder', subpath=curr_path.rstrip('/')+('/..' * jump_n)) }}">{{ name }}</a>
+{%- endmacro %}
+
+{% macro display_folders() -%}
+{% if not subfolders %}
+<p>Dieser Ordner hat keine Unterordner.</p>
+{% endif %}
+<div class="detail-folder-outline">
+    {% for folder in subfolders %}
+    <div class="detail-folder-entry">
+        <p><i class="icon-folder-close"></i> {{ folder_link(folder.relpath, folder.name) }}</p>
+    </div>
+    {% endfor %}
+</div>
+{%- endmacro %}
+
+{% macro make_permission(name, inheritance, readonly) -%}
+<form method="POST" class="permission-entry" onsubmit="confirm('Wirklich diese Berechtigung entfernen?');">
+    <button type="submit"><i class="icon-minus"></i></button>
+    <i class="icon-sitemap inh-icon-{{ '' if inheritance else 'in' }}active"></i>
+    <input type="text" name="remove" value="{{ name }}" hidden>
+    <input type="checkbox" name="inheritance" {{ 'checked' if inheritance else '' }} hidden>
+    <input type="checkbox" name="readonly" {{ 'checked' if readonly else '' }} hidden>
+    {{ name }} <i class="permission-readonly">{{ '( nur Lesezugriff )' if readonly else '' }}</i>
+</form>
+{%- endmacro %}
+
+{% macro display_permissions() -%}
+<p><b>Nutzer*innen:</b></p>
+{% if users | length == 0 %}
+<p>Dieser Ordner hat noch keine Nutzer*innen mit Berechtigung.</p>
+{% endif %}
+{% for user in users %}
+{{ make_permission(user.entity.name, user.inheritable, user.readonly) }}
+{% endfor %}
+<p><b>Gruppen:</b></p>
+{% if groups | length == 0 %}
+<p>Dieser Ordner hat noch keine Gruppen mit Berechtigung.</p>
+{% endif %}
+{% for group in groups %}
+{{ make_permission(group.entity.name, group.inheritable, group.readonly) }}
+{% endfor %}
+{% if users or groups %}
+<br>
+<i class="icon-sitemap inh-icon-active"></i> <small>bedeutet, dass Rechte auch auf Unterordner übertragen werden</small>
+{% endif %}
+{%- endmacro %}
+
+{% block body %}
+
+<h1>Ordneransicht</h1>
+<p><a href="{{ url_for('folder_overview') }}">Zurück zur Übersicht</a></p>
+<p><b>Ordner:</b>
+{% for parent in curr_path.split('/') %}
+{% if not loop.first %}
+<i class="icon-caret-right" style="padding-left: 3px; padding-right: 3px;"></i>
+{% endif %}
+{{ make_path(parent, loop.length-loop.index) }}
+{% endfor %}
+</p>
+
+<p><b>Unterordner:</b></p>
+{{ display_folders() }}
+
+<h2>Rechteverwaltung</h2>
+<form method="POST">
+    <input type="text" id="add-permission" name="add" placeholder="User/Gruppe hinzufügen" required>
+    <button type="submit"><i class="icon-plus"></i></button><br>
+    <input type="checkbox" id="inheritance" name="inheritance" class="option-inheritance" checked>
+    <label for="inheritance"><small>Unterordner einschließen</small></label><br>
+    <input type="checkbox" id="readonly" name="readonly" class="option-readonly">
+    <label for="readonly"><small>Nur Lesezugriff</small></label><br>
+</form><br>
+
+{{ display_permissions() }}
+
+{% endblock %}

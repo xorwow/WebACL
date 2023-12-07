@@ -1,0 +1,42 @@
+import os, logging
+
+# Minimum log level to write, DEBUG includes extensive tracing, INFO just important events
+# This will affect sysout logging as well as file logging
+MIN_LOG_LEVEL = logging.INFO
+
+# Create a random app secret key and put it here. Do not share.
+#SECRET_KEY = os.getenv(WEBACL_SECRET_KEY).encode('utf-8')
+SECRET_KEY = b'<something very random>'
+
+# Base path of ACL folder scope. Requests for files outside this scope will be blocked.
+SAFE_BASE_PATH = '<root path of the managed file structure that should be exposed>'
+BASE_REALPATH = os.path.join(os.path.realpath(SAFE_BASE_PATH), '')
+
+# A user that has any of ADMIN_GROUPS or is included in ADMIN_USERS will be treated as an administrator.
+ADMIN_GROUPS = [ '<a linux/winbind group that is only assigned to admins>' ]
+ADMIN_USERS = [ '<a specific admin user>' ]
+
+# Only allow users within these groups to log in and use the service
+# Additionally, the ADMIN_GROUPS and ADMIN_USERS will be checked
+ALLOWED_LOGIN_GROUPS = [ '<a group that is only assigned to users which may use this service>' ]
+
+# Protected group and user permission entries that will not be listed to non-admin users.
+PROTECTED_GROUPS = [ '<a group that will not be shown to or be modifiable by normal users>' ]
+PROTECTED_USERS = [ '<a user that will not be shown to or be modifiable by normal users>' ]
+
+# Maximum search depth for the admin view global search
+# Increasing this will significantly lenghten the search process
+# 0 for infinite
+MAX_SEARCH_DEPTH = 4
+
+# Config for flask-oidc (see https://flask-oidc.readthedocs.io/en/latest/)
+OIDC_CONFIG = {
+    'SECRET_KEY': SECRET_KEY,
+    'OIDC_CLIENT_SECRETS': 'client_secrets.json',
+    'OIDC_ID_TOKEN_COOKIE_SECURE': False,
+    'OIDC_REQUIRE_VERIFIED_EMAIL': False,
+    'OIDC_USER_INFO_ENABLED': True,
+    'OIDC_OPENID_REALM': '<your realm id>',
+    'OIDC_SCOPES': ['openid', 'email'],
+    'OIDC_INTROSPECTION_AUTH_METHOD': 'client_secret_post'
+}

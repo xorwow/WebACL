@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% macro make_cache(id, name) -%}
+<form method="POST" class="cache-entry" onsubmit="confirm('Wirklich Cache löschen?');">
+    <input type="text" name="cache" value="{{ id }}" hidden>
+    {% if username %}
+    <input type="text" name="user" value="{{ username }}" hidden>
+    {% endif %}
+    <button type="submit" class="warning-button"><i class="icon-warning-sign"></i> {{ name }} leeren</button>
+</form>
+{%- endmacro %}
+
+{% macro display_folders(subfolders, parent='') -%}
+{% for folder in subfolders %}
+<form method="POST" class="global-folder-entry"  onsubmit="confirm('Wirklich die Berechtigung entfernen?');">
+    <input type="text" name="user" value="{{ username }}" hidden>
+    <button type="submit"><i class="icon-minus"></i></button>
+    <input type="text" name="remove" value="{{ parent + folder[0].name }}" hidden>
+    {{ folder_link(folder[0].relpath, folder[0].relpath) }}
+</form>
+{% if folder[1] %}
+{{ display_folders(folder[1], parent + folder[0].name + '/') }}
+{% endif %}
+{% endfor %}
+{%- endmacro %}
+
+{% block body %}
+
+<h1>Cache-Verwaltung</h1>
+<p>Hier können Ordner- und Usercaches geleert werden. 
+Der Ordnercache sollte geleert werden, wenn Ordnerrechte manuell auf dem Server bearbeitet wurden. 
+Der Usercache sollte geleert werden, wenn ein AD-User manuell bearbeitet wurde.</p>
+{{ make_cache('user', 'Usercache') }} {{ make_cache('folder', 'Ordnercache') }}
+<br>
+
+<h1>Globale Berechtigungssuche</h1>
+<p>Hier können alle Ordner gelistet werden, auf die ein User Zugriff hat, und dieser Zugriff entfernt werden.</p>
+<p><b>Achtung:</b> Nur Ordnerrechte, auf welche ein User direkt (nicht durch Gruppenangehörigkeit) Zugriff hat, werden wirklich entfernt.</p>
+<p><b>Achtung:</b> Dieser Vorgang kann mehr als 15 Minuten dauern und die Verbindung wird aufgehangen aussehen.</p>
+<p><a href="{{ url_for('folder_overview') }}">Zurück zur Übersicht</a></p>
+<form method="POST">
+    <input type="text" id="search" name="search" placeholder="Username" required>
+    <button type="submit"><i class="icon-search"></i></button><br>
+</form><br>
+{% if username %}
+<p><b>User:</b> {{ username }}</p>
+<p><b>Zugeilte Ordner:</b></p>
+{% if folders | length == 0 %}
+<p>User wurde noch keinen Ordnern zugeteilt.</p>
+{% endif %}
+{{ display_folders(folders) }}
+{% if folders %}
+<form method="POST" onsubmit="confirm('Wirklich alle Berechtigungen entfernen?');">
+    <input type="text" name="remove" value="REMOVE-ALL" hidden>
+    <input type="text" name="user" value="{{ username }}" hidden>
+    <button type="submit" class="warning-button"><i class="icon-warning-sign"></i> Alle entfernen</button>
+</form><br>
+<i class="icon-sitemap inh-icon-active"></i> <small>bedeutet, dass Rechte auch auf Unterordner übertragen werden</small>
+{% endif %}
+{% endif %}
+
+{% endblock %}

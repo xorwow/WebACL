@@ -1,0 +1,25 @@
+{% macro folder_link(path, name) -%}
+<a href="{{ url_for('view_folder', subpath=path) }}">{{ name }}</a>
+{%- endmacro %}
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>WebACL</title>
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	</head>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash-{{ category }}">
+            <i class="icon-{{ 'ok' if category == 'good' else ('info' if category == 'info' else 'warning-sign') }}"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+</html>

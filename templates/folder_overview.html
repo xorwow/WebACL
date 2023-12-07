@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Willkommen bei WebACL!</h1>
+    <p>Wählen Sie einen Ordner aus der Liste aus, für welchen Sie die Berechtigungen ändern oder einen Unterordner einsehen wollen. 
+    Es werden nur Ordner angezeigt, für welche Sie bereits Berechtigungen haben.</p>
+    <p><b>User:</b> {{ username }}</p>
+    {% if is_admin %}
+    <a href="{{ url_for('admin_view') }}">Zum Adminportal</a>
+    <br>
+    {% endif %}
+    <br>
+    <div class="base-folder-outline">
+        {% for folder in subfolders %}
+        <p><i class="icon-folder-close"></i> {{ folder_link(folder.relpath, folder.name) }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
